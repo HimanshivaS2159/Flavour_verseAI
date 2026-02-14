@@ -80,12 +80,86 @@ def get_all_flavors():
     except Exception as e:
         return {"error": f"Unexpected error: {str(e)}"}
 
-# Return helpful message if no data found
-available_ingredients = ["vanilla", "chocolate", "garlic", "lemon", "cinnamon", 
-                           "coffee", "basil", "ginger", "honey", "mint"]
+def get_flavor_categories():
+    """
+    Get flavor categories and their descriptions
+    """
+    return {
+        "sweet": {
+            "description": "Sweet flavors like sugar, honey, vanilla",
+            "ingredients": ["sugar", "honey", "vanilla", "maple syrup", "agave"],
+            "pairings": ["citrus", "nuts", "spices"]
+        },
+        "sour": {
+            "description": "Sour flavors like lemon, vinegar, yogurt",
+            "ingredients": ["lemon", "lime", "vinegar", "yogurt", "tamarind"],
+            "pairings": ["sweet", "herbs", "fatty"]
+        },
+        "salty": {
+            "description": "Salty flavors like salt, soy sauce, cheese",
+            "ingredients": ["salt", "soy sauce", "cheese", "bacon", "olives"],
+            "pairings": ["sweet", "acidic", "herbs"]
+        },
+        "bitter": {
+            "description": "Bitter flavors like coffee, dark chocolate, greens",
+            "ingredients": ["coffee", "dark chocolate", "kale", "broccoli", "grapefruit"],
+            "pairings": ["sweet", "fatty", "creamy"]
+        },
+        "umami": {
+            "description": "Umami flavors like mushrooms, soy, aged cheese",
+            "ingredients": ["mushrooms", "soy sauce", "parmesan", "tomato", "seaweed"],
+            "pairings": ["salty", "acidic", "fatty"]
+        },
+        "spicy": {
+            "description": "Spicy flavors like chili, pepper, ginger",
+            "ingredients": ["chili", "black pepper", "ginger", "wasabi", "horseradish"],
+            "pairings": ["cooling", "creamy", "sweet"]
+        }
+    }
+
+def get_flavor_pairings(flavor_category):
+    """
+    Get recommended pairings for a specific flavor category
+    """
+    categories = get_flavor_categories()
+    if flavor_category in categories:
+        return categories[flavor_category]["pairings"]
+    return {"error": f"Unknown flavor category: {flavor_category}"}
+
+def analyze_flavor_profile(ingredients):
+    """
+    Analyze the flavor profile of multiple ingredients
+    """
+    if not ingredients:
+        return {"error": "Ingredients list is required"}
     
-return {
-    "error": f"No flavor data found for '{ingredient}'",
-    "suggestion": f"Try one of these ingredients: {', '.join(available_ingredients)}",
-    "available_ingredients": available_ingredients
-}
+    categories = get_flavor_categories()
+    profile = {
+        "ingredients": ingredients,
+        "flavor_breakdown": {},
+        "dominant_flavors": [],
+        "pairing_suggestions": []
+    }
+    
+    flavor_counts = {}
+    for ingredient in ingredients:
+        ingredient_lower = ingredient.lower()
+        for category, data in categories.items():
+            if ingredient_lower in [ing.lower() for ing in data["ingredients"]]:
+                flavor_counts[category] = flavor_counts.get(category, 0) + 1
+                profile["flavor_breakdown"][category] = profile["flavor_breakdown"].get(category, 0) + 1
+    
+    # Determine dominant flavors
+    if flavor_counts:
+        max_count = max(flavor_counts.values())
+        profile["dominant_flavors"] = [flavor for flavor, count in flavor_counts.items() if count == max_count]
+        
+        # Get pairings for dominant flavors
+        for dominant_flavor in profile["dominant_flavors"]:
+            if dominant_flavor in categories:
+                profile["pairing_suggestions"].extend(categories[dominant_flavor]["pairings"])
+        
+        # Remove duplicates
+        profile["pairing_suggestions"] = list(set(profile["pairing_suggestions"]))
+    
+    return profile
