@@ -267,7 +267,7 @@ function App() {
             className="mt-6 pt-6 border-t border-slate-700/50"
           >
             <p className="text-gray-500 text-xs">
-              © 2024 Flavour Verse. Where culinary intelligence meets modern technology.
+              © 2026 Flavour Verse. Where culinary intelligence meets modern technology.
             </p>
           </motion.div>
         </div>

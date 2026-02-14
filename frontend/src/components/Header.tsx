@@ -42,7 +42,7 @@ const Header: React.FC = () => {
           >
             <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full border border-slate-700/30">
               <Zap className="text-orange-400" size={16} />
-              <span className="text-white text-sm font-medium">AI-Powered</span>
+              <span className="text-white text-sm font-medium">Smart Analysis</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full border border-slate-700/30">
               <Brain className="text-blue-400" size={16} />
