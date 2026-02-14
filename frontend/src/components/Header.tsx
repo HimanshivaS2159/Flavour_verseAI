@@ -26,7 +26,7 @@ const Header: React.FC = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-200 bg-clip-text text-transparent">
-                FlavoursVerse AI
+                Flavour Verse
               </h1>
               <p className="text-gray-400 text-sm font-medium">
                 Advanced Culinary Intelligence

@@ -96,7 +96,7 @@ function App() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-200 bg-clip-text text-transparent mb-4"
           >
-            FlavoursVerse AI
+            Flavour Verse
           </motion.h1>
           
           <motion.p 
@@ -239,7 +239,7 @@ function App() {
                 <Sparkles size={20} className="text-white" />
               </motion.div>
               <div>
-                <h3 className="text-white font-semibold">FlavoursVerse AI</h3>
+                <h3 className="text-white font-semibold">Flavour Verse</h3>
                 <p className="text-gray-400 text-sm">Advanced Culinary Intelligence</p>
               </div>
             </div>
@@ -267,7 +267,7 @@ function App() {
             className="mt-6 pt-6 border-t border-slate-700/50"
           >
             <p className="text-gray-500 text-xs">
-              © 2024 FlavoursVerse AI. Where culinary intelligence meets modern technology.
+              © 2024 Flavour Verse. Where culinary intelligence meets modern technology.
             </p>
           </motion.div>
         </div>
