@@ -105,10 +105,6 @@ body {
   @apply bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl shadow-xl;
 }
 
-.card-hover {
-  @apply hover:bg-slate-700/30 hover:border-slate-600/50 transform hover:scale-102 transition-all duration-300;
-}
-
 /* Modern Text Styles */
 .text-gradient {
   @apply bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent;

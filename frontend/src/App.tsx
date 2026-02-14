@@ -181,7 +181,7 @@ function App() {
             className="text-center mb-12"
           >
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-slate-800/50 backdrop-blur-sm rounded-full border border-slate-700/30">
-              <activeTabData?.icon && (
+              {activeTabData?.icon && (
                 <activeTabData.icon size={18} className="text-orange-400" />
               )}
               <p className="text-gray-300 text-sm md:text-base">
