@@ -11,7 +11,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   min-height: 100vh;
 }
 
@@ -19,28 +19,31 @@ body {
   box-sizing: border-box;
 }
 
+/* Modern Glass Effects */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.flavor-gradient {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+/* Enhanced Gradients */
+.gradient-emerald-teal {
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
 }
 
-.substitution-gradient {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+.gradient-purple-pink {
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
 }
 
-.assistant-gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.gradient-blue-cyan {
+  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
 }
 
-.calorie-gradient {
-  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+.gradient-orange-red {
+  background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
 }
 
+/* Loading Spinner */
 .loading-spinner {
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
@@ -50,7 +53,121 @@ body {
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* Drop Shadow Effect */
+.drop-shadow-lg {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Modern Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Modern Focus Styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+/* Modern Button Styles */
+.btn-primary {
+  @apply px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 bg-slate-800/50 text-gray-300 font-semibold rounded-xl border border-slate-700/30 hover:bg-slate-700/50 hover:border-slate-600/50 transform hover:scale-105 transition-all duration-200;
+}
+
+/* Modern Card Styles */
+.card-glass {
+  @apply bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl shadow-xl;
+}
+
+.card-hover {
+  @apply hover:bg-slate-700/30 hover:border-slate-600/50 transform hover:scale-102 transition-all duration-300;
+}
+
+/* Modern Text Styles */
+.text-gradient {
+  @apply bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent;
+}
+
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Modern Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.4s ease-out;
+}
+
+/* Modern Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    @apply px-4;
+  }
+}
+
+@media (min-width: 769px) {
+  .container {
+    @apply px-6;
+  }
+}
+
+/* Modern Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold tracking-tight;
+}
+
+p {
+  @apply leading-relaxed;
+}
+
+/* Modern Component Styles */
+.hero-gradient {
+  background: linear-gradient(135deg, #f97316 0%, #dc2626 50%, #7c3aed 100%);
+}
+
+.tab-active {
+  @apply bg-gradient-to-r from-blue-500/20 to-purple-600/20 border-2 border-blue-500/30 shadow-2xl;
+}
+
+.content-wrapper {
+  @apply backdrop-blur-sm bg-slate-900/50 rounded-2xl border border-slate-700/30;
 }
