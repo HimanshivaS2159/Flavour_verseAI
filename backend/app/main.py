@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import router
+from services.flavordb_service import get_all_flavors
 
 app = FastAPI()
 
@@ -14,3 +15,8 @@ app.add_middleware(
 )
 
 app.include_router(router)
+
+# Flavor API endpoint using your new API
+@app.get("/flavors")
+def get_flavors():
+    return get_all_flavors()
