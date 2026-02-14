@@ -12,7 +12,127 @@ def get_flavor_data(ingredient):
     
     ingredient = ingredient.lower().strip()
     
-    # Try local database first
+    # Create local flavor database with common ingredients
+    local_flavor_db = {
+        "lemon": {
+            "flavor_profile": {
+                "sweet": 2,
+                "sour": 8,
+                "bitter": 1,
+                "salty": 1,
+                "umami": 1,
+                "spicy": 0
+            },
+            "description": "Citrus fruit with bright, acidic flavor",
+            "aroma": "Fresh, zesty, citrusy",
+            "pairings": ["honey", "mint", "basil", "ginger", "garlic", "olive oil"],
+            "categories": ["citrus", "sour", "fresh"]
+        },
+        "garlic": {
+            "flavor_profile": {
+                "sweet": 0,
+                "sour": 1,
+                "bitter": 2,
+                "salty": 1,
+                "umami": 6,
+                "spicy": 3
+            },
+            "description": "Pungent bulb with strong savory flavor",
+            "aroma": "Strong, pungent, aromatic",
+            "pairings": ["lemon", "herbs", "onion", "tomato", "olive oil", "butter"],
+            "categories": ["allium", "savory", "aromatic"]
+        },
+        "vanilla": {
+            "flavor_profile": {
+                "sweet": 9,
+                "sour": 1,
+                "bitter": 1,
+                "salty": 0,
+                "umami": 2,
+                "spicy": 0
+            },
+            "description": "Sweet, aromatic orchid pod",
+            "aroma": "Sweet, creamy, warm, comforting",
+            "pairings": ["chocolate", "coffee", "caramel", "berries", "nuts"],
+            "categories": ["sweet", "aromatic", "comforting"]
+        },
+        "chocolate": {
+            "flavor_profile": {
+                "sweet": 8,
+                "sour": 2,
+                "bitter": 6,
+                "salty": 1,
+                "umami": 3,
+                "spicy": 1
+            },
+            "description": "Rich, sweet cacao product",
+            "aroma": "Rich, sweet, slightly bitter, comforting",
+            "pairings": ["vanilla", "coffee", "nuts", "berries", "caramel"],
+            "categories": ["sweet", "rich", "comforting"]
+        },
+        "honey": {
+            "flavor_profile": {
+                "sweet": 9,
+                "sour": 2,
+                "bitter": 1,
+                "salty": 0,
+                "umami": 1,
+                "spicy": 0
+            },
+            "description": "Natural sweet syrup from bees",
+            "aroma": "Sweet, floral, warm, golden",
+            "pairings": ["lemon", "tea", "herbs", "cheese", "nuts"],
+            "categories": ["sweet", "natural", "floral"]
+        },
+        "basil": {
+            "flavor_profile": {
+                "sweet": 1,
+                "sour": 1,
+                "bitter": 2,
+                "salty": 0,
+                "umami": 3,
+                "spicy": 0
+            },
+            "description": "Aromatic herb with sweet, peppery flavor",
+            "aroma": "Fresh, herbal, slightly sweet, peppery",
+            "pairings": ["tomato", "garlic", "lemon", "olive oil", "cheese"],
+            "categories": ["herb", "aromatic", "fresh"]
+        },
+        "ginger": {
+            "flavor_profile": {
+                "sweet": 2,
+                "sour": 2,
+                "bitter": 1,
+                "salty": 0,
+                "umami": 2,
+                "spicy": 7
+            },
+            "description": "Spicy, pungent root with zesty flavor",
+            "aroma": "Spicy, warm, zesty, slightly sweet",
+            "pairings": ["lemon", "garlic", "honey", "soy sauce", "coconut"],
+            "categories": ["spicy", "root", "zesty"]
+        },
+        "cinnamon": {
+            "flavor_profile": {
+                "sweet": 8,
+                "sour": 1,
+                "bitter": 2,
+                "salty": 0,
+                "umami": 2,
+                "spicy": 8
+            },
+            "description": "Sweet, spicy bark with warm aroma",
+            "aroma": "Sweet, spicy, warm, woody, comforting",
+            "pairings": ["apple", "coffee", "nuts", "vanilla", "chocolate"],
+            "categories": ["spice", "sweet", "warm"]
+        }
+    }
+    
+    # Check local database first
+    if ingredient in local_flavor_db:
+        return local_flavor_db[ingredient]
+    
+    # Try local database file next
     try:
         flavor_db_path = os.path.join(os.path.dirname(__file__), "..", "ml", "flavor_db.pkl")
         if os.path.exists(flavor_db_path):
