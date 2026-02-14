@@ -1,10 +1,13 @@
-# FlavoursVerse - Culinary Intelligence Platform
+# FlavoursVerse AI - Advanced Culinary Intelligence System
 
-A modern web application for ingredient substitution and flavor analysis powered by machine learning.
+A comprehensive AI-powered culinary application that provides intelligent flavor analysis, ingredient substitutions, and nutritional information.
 
 ## Features
 
-- **Ingredient Substitution**: Find perfect substitutes for any ingredient using ML-powered recommendations
+### Enhanced UI/UX
+- **Dark Theme**: Beautiful gradient backgrounds with orange accents
+- **Responsive Design**: Mobile-friendly interface with smooth animations
+- **Interactive Components**: Real-time feedback and visual indicators
 - **Flavor Analysis**: Discover detailed flavor profiles and chemical compounds
 - **Modern UI**: Beautiful React interface with animations and responsive design
 - **Offline Support**: Works completely offline with local databases
