@@ -1,91 +1,43 @@
 const express = require('express');
-const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const BACKEND_PORT = process.env.BACKEND_PORT || 8000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// API proxy to backend
-const API_BASE_URL = process.env.API_URL || 'http://localhost:8001';
-
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// API endpoints that proxy to backend
-app.post('/api/greet', async (req, res) => {
-    try {
-        const response = await axios.post(`${API_BASE_URL}/api/greet`, req.body);
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+// Health check
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', message: 'Frontend server is running' });
 });
 
-app.post('/api/format-version', async (req, res) => {
-    try {
-        const response = await axios.post(`${API_BASE_URL}/api/format-version`, req.body);
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// Start server with auto port detection
+const startServer = (port) => {
+    const server = app.listen(port, () => {
+        console.log('============================================================');
+        console.log('  SportsVerse AI v2.0 Frontend Server');
+        console.log('============================================================');
+        console.log(`  Server running on: http://localhost:${port}`);
+        console.log(`  Backend API at: http://localhost:${BACKEND_PORT}`);
+        console.log('============================================================');
+    }).on('error', (err) => {
+        if (err.code === 'EADDRINUSE') {
+            console.log(`Port ${port} is busy, trying ${port + 1}...`);
+            startServer(port + 1);
+        } else {
+            console.error('Server error:', err);
+        }
+    });
+};
 
-app.post('/api/slugify', async (req, res) => {
-    try {
-        const response = await axios.post(`${API_BASE_URL}/api/slugify`, req.body);
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.post('/api/truncate', async (req, res) => {
-    try {
-        const response = await axios.post(`${API_BASE_URL}/api/truncate`, req.body);
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.get('/api/health', async (req, res) => {
-    try {
-        const response = await axios.get(`${API_BASE_URL}/api/health`);
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Handle 404 for all other routes
-app.use((req, res) => {
-    if (req.path.startsWith('/api/')) {
-        res.status(404).json({ 
-            error: 'Endpoint not found',
-            message: `The endpoint ${req.method} ${req.path} does not exist`,
-            availableEndpoints: [
-                'POST /api/greet',
-                'POST /api/format-version',
-                'POST /api/slugify', 
-                'POST /api/truncate',
-                'GET /api/health'
-            ]
-        });
-    } else {
-        res.status(404).send('Page not found');
-    }
-});
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`Frontend server running on port ${PORT}`);
-    console.log(`Backend API at: ${API_BASE_URL}`);
-});
+startServer(PORT);
