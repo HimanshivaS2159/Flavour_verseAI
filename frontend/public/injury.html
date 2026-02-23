@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Injury Prediction - SportsVerse AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+        .header {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.8rem; font-weight: 700; color: #ff6b35; }
+        .header-nav { display: flex; gap: 15px; }
+        .header-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .header-btn:hover { background: #ff8c42; transform: translateY(-2px); }
+        .header-btn.health { background: rgba(100, 100, 100, 0.5); }
+        .header-btn.health:hover { background: rgba(120, 120, 120, 0.7); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 30px; }
+        .page-title { text-align: center; font-size: 2.5rem; color: #ff6b35; margin-bottom: 10px; }
+        .page-subtitle { text-align: center; color: #888; margin-bottom: 40px; font-size: 1.1rem; }
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+        .form-panel {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 15px;
+            padding: 35px;
+        }
+        .panel-title { font-size: 1.5rem; margin-bottom: 25px; color: #ff6b35; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #b0b0b0; font-size: 0.9rem; }
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus { outline: none; border-color: #ff6b35; background: rgba(50, 50, 50, 0.9); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .analyze-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .analyze-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4); }
+        .result-panel {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            min-height: 400px;
+        }
+        .icon { font-size: 5rem; margin-bottom: 20px; }
+        .result-title { font-size: 1.8rem; margin-bottom: 15px; color: #ff6b35; }
+        .result-text { color: #b0b0b0; font-size: 1.1rem; }
+        .risk-low { color: #4caf50; }
+        .risk-medium { color: #ff9800; }
+        .risk-high { color: #f44336; }
+        .chart-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 10px;
+            display: none;
+        }
+        .chart-container.show { display: block; }
+        @media (max-width: 968px) { .content-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🏃 Personal Injury Prediction</div>
+            <div class="header-nav">
+                <a href="index.html" class="header-btn">🏀 Sports & Injury</a>
+                <a href="health.html" class="header-btn health">💚 Health</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="page-title">Personal Injury Prediction</h1>
+        <p class="page-subtitle">AI-powered injury risk analysis for your sports and activities</p>
+        <div class="content-grid">
+            <div class="form-panel">
+                <h2 class="panel-title">Your Information</h2>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="age" value="25" min="10" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Sport/Activity</label>
+                        <select id="sport">
+                            <option>Basketball</option>
+                            <option>Football</option>
+                            <option>Cricket</option>
+                            <option>Tennis</option>
+                            <option>Running</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Exercise Type</label>
+                    <select id="exerciseType">
+                        <option>Training</option>
+                        <option>Competition</option>
+                        <option>Recovery</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Experience (years)</label>
+                        <input type="number" id="experience" value="2" min="0" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Weekly Hours</label>
+                        <input type="number" id="weeklyHours" value="5" min="0" max="100">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Intensity Level</label>
+                    <select id="intensity">
+                        <option>Low</option>
+                        <option>Moderate</option>
+                        <option>High</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Previous Injuries</label>
+                        <input type="number" id="prevInjuries" value="0" min="0" max="20">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Pain (0-10)</label>
+                        <input type="number" id="currentPain" value="0" min="0" max="10">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Flexibility (1-10)</label>
+                        <input type="number" id="flexibility" value="5" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label>Strength (1-10)</label>
+                        <input type="number" id="strength" value="5" min="1" max="10">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Rest Days per Week</label>
+                        <input type="number" id="restDays" value="2" min="0" max="7">
+                    </div>
+                    <div class="form-group">
+                        <label>Sleep Hours</label>
+                        <input type="number" id="sleepHours" value="7" min="0" max="24">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Stress Level (1-10)</label>
+                    <input type="number" id="stressLevel" value="5" min="1" max="10">
+                </div>
+                <button class="analyze-btn" onclick="analyzeInjuryRisk()">🔍 Analyze Injury Risk</button>
+            </div>
+            <div class="result-panel" id="resultPanel">
+                <div class="icon">🏃</div>
+                <h3 class="result-title">Ready to Analyze</h3>
+                <p class="result-text">Fill in your information and click Analyze Injury Risk</p>
+                <div class="chart-container" id="chartContainer">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let riskChart = null;
+        
+        function analyzeInjuryRisk() {
+            const age = parseInt(document.getElementById('age').value);
+            const sport = document.getElementById('sport').value;
+            const experience = parseInt(document.getElementById('experience').value);
+            const weeklyHours = parseInt(document.getElementById('weeklyHours').value);
+            const intensity = document.getElementById('intensity').value;
+            const prevInjuries = parseInt(document.getElementById('prevInjuries').value);
+            const currentPain = parseInt(document.getElementById('currentPain').value);
+            const flexibility = parseInt(document.getElementById('flexibility').value);
+            const strength = parseInt(document.getElementById('strength').value);
+            const restDays = parseInt(document.getElementById('restDays').value);
+            const sleepHours = parseInt(document.getElementById('sleepHours').value);
+            const stressLevel = parseInt(document.getElementById('stressLevel').value);
+            
+            let riskScore = 0;
+            let factors = {
+                age: 0,
+                experience: 0,
+                workload: 0,
+                injuries: 0,
+                recovery: 0,
+                fitness: 0
+            };
+            
+            if (age > 40) factors.age = 15;
+            else if (age > 30) factors.age = 10;
+            else if (age < 20) factors.age = 5;
+            
+            if (experience < 1) factors.experience = 15;
+            else if (experience < 3) factors.experience = 10;
+            else if (experience > 10) factors.experience = -5;
+            
+            if (weeklyHours > 20) factors.workload = 15;
+            else if (weeklyHours > 15) factors.workload = 10;
+            else if (weeklyHours < 3) factors.workload = 5;
+            
+            if (intensity === 'High') factors.workload += 10;
+            else if (intensity === 'Low') factors.workload -= 5;
+            
+            factors.injuries = prevInjuries * 8 + currentPain * 5;
+            factors.fitness = -(flexibility * 2 + strength * 2);
+            
+            if (restDays < 1) factors.recovery = 15;
+            else if (restDays < 2) factors.recovery = 10;
+            else if (restDays >= 3) factors.recovery = -5;
+            
+            if (sleepHours < 6) factors.recovery += 15;
+            else if (sleepHours < 7) factors.recovery += 10;
+            else if (sleepHours >= 8) factors.recovery -= 5;
+            
+            factors.recovery += stressLevel * 2;
+            
+            riskScore = Object.values(factors).reduce((a, b) => a + b, 0);
+            riskScore = Math.max(0, Math.min(100, riskScore));
+            
+            let riskLevel, riskClass, riskIcon, riskMessage;
+            if (riskScore < 30) {
+                riskLevel = 'Low Risk';
+                riskClass = 'risk-low';
+                riskIcon = '✅';
+                riskMessage = 'Great! Your injury risk is low. Keep maintaining your routine.';
+            } else if (riskScore < 60) {
+                riskLevel = 'Moderate Risk';
+                riskClass = 'risk-medium';
+                riskIcon = '⚠️';
+                riskMessage = 'Moderate risk. Consider improving flexibility and rest.';
+            } else {
+                riskLevel = 'High Risk';
+                riskClass = 'risk-high';
+                riskIcon = '🚨';
+                riskMessage = 'High risk. Consult a sports medicine professional.';
+            }
+            
+            document.getElementById('resultPanel').innerHTML = `
+                <div class="icon">${riskIcon}</div>
+                <h3 class="result-title ${riskClass}">${riskLevel} - ${riskScore}%</h3>
+                <p class="result-text">${riskMessage}</p>
+                <div style="margin-top:20px;text-align:left;width:100%;">
+                    <p style="color:#888;font-size:0.9rem;margin-bottom:10px;">Key Factors:</p>
+                    <p style="color:#b0b0b0;font-size:0.85rem;">• Sport: ${sport}</p>
+                    <p style="color:#b0b0b0;font-size:0.85rem;">• Experience: ${experience} years</p>
+                    <p style="color:#b0b0b0;font-size:0.85rem;">• Weekly Hours: ${weeklyHours}h</p>
+                    <p style="color:#b0b0b0;font-size:0.85rem;">• Previous Injuries: ${prevInjuries}</p>
+                    <p style="color:#b0b0b0;font-size:0.85rem;">• Rest Days: ${restDays}/week</p>
+                </div>
+                <div class="chart-container show" id="chartContainer">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            `;
+            
+            createRiskChart(factors, riskScore);
+        }
+        
+        function createRiskChart(factors, totalRisk) {
+            if (riskChart) {
+                riskChart.destroy();
+            }
+            
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            
+            const factorData = [
+                Math.max(0, factors.age),
+                Math.max(0, factors.experience),
+                Math.max(0, factors.workload),
+                Math.max(0, factors.injuries),
+                Math.max(0, factors.recovery),
+                Math.max(0, -factors.fitness)
+            ];
+            
+            riskChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Age Factor', 'Experience', 'Workload', 'Injury History', 'Recovery', 'Fitness'],
+                    datasets: [{
+                        label: 'Risk Factors',
+                        data: factorData,
+                        backgroundColor: 'rgba(255, 107, 53, 0.2)',
+                        borderColor: '#ff6b35',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#ff6b35',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#ff6b35'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 30,
+                            ticks: {
+                                color: '#888',
+                                backdropColor: 'transparent'
+                            },
+                            grid: {
+                                color: 'rgba(255, 107, 53, 0.1)'
+                            },
+                            pointLabels: {
+                                color: '#b0b0b0',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Risk Factor Breakdown',
+                            color: '#ff6b35',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
