@@ -1,0 +1,22 @@
+{
+  "name": "sportsverse-ai-frontend",
+  "version": "2.0.0",
+  "description": "SportsVerse AI v2.0 - Frontend Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "sports",
+    "analytics",
+    "health",
+    "injury-prediction"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
